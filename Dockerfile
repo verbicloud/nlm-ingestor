@@ -35,4 +35,5 @@ RUN python -m nltk.downloader punkt
 RUN python -c "import tiktoken; tiktoken.get_encoding(\"cl100k_base\")"
 RUN chmod +x run.sh
 EXPOSE 5001
-CMD ./run.sh
+
+ENTRYPOINT ["tail", "-f", "/dev/null"]

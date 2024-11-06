@@ -68,9 +68,7 @@ def ingest_document(
                 "result": ingestor.json_dict,
             }
 
-        if doc_location and os.path.exists(doc_location):
-            os.unlink(doc_location)
-            logger.info(f"File {doc_location} deleted")
+
         return return_dict, ingestor
 
     
