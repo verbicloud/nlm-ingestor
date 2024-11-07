@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from nlm_ingestor.ingestor import ingestor_api
 
 
@@ -17,9 +19,13 @@ def parse_document(
         "apply_ocr": apply_ocr == "yes",
     }
 
+    Path("/tmp/tmp.pdf").write_bytes(
+        Path(file).read_bytes()
+    )
+
     return_dict, _ = ingestor_api.ingest_document(
-        file,
-        file,
+        "/tmp/tmp.pdf",
+        "/tmp/tmp.pdf",
         "application/pdf",
         parse_options=parse_options,
     )
@@ -38,4 +44,4 @@ if __name__ == "__main__":
     file = parse_document(args.file)
 
     doc = Document(file["result"]["blocks"])
-    print(doc.to_html())
+    print(doc.to_html(), flush=True)
