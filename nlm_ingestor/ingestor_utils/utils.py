@@ -2,11 +2,10 @@ import json
 import re
 
 import numpy as np
-from nltk import load
 from nltk import PunktSentenceTokenizer
 
 
-nltk_abbs = load("tokenizers/punkt/{}.pickle".format("english"))._params.abbrev_types
+nltk_abbs = set()
 
 
 class NpEncoder(json.JSONEncoder):
