@@ -28,12 +28,18 @@ WORKDIR ${APP_HOME}
 COPY . ./
 RUN pip install --upgrade pip setuptools
 RUN apt-get install -y libmagic1
-RUN mkdir -p -m 0600 ~/.ssh && ssh-keyscan github.com >> ~/.ssh/known_hosts
 RUN pip install -r requirements.txt
 RUN python -m nltk.downloader stopwords
 RUN python -m nltk.downloader punkt
 RUN python -c "import tiktoken; tiktoken.get_encoding(\"cl100k_base\")"
 RUN chmod +x run.sh
 
+ENV TIKA_SERVER_JAR=/app/jars/tika-server.jar
+ENV TIKA_PATH=/app/jars/
 
-ENTRYPOINT ["bash", "run.sh"]
+# Adapt to AWS lambda
+RUN pip install awslambdaric
+# Set runtime interface client as default command for the container runtime
+ENTRYPOINT ["/usr/local/bin/python", "-m", "awslambdaric"]
+# Pass the name of the function handler as an argument to the runtime
+CMD ["lambda_function.lambda_handler"]
