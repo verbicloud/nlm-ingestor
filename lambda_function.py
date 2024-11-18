@@ -3,7 +3,26 @@ import uuid
 
 import boto3
 from nlm_ingestor.ingestor import ingestor_api
+import pypdfium2 as pdfium
 from llmsherpa.readers import Document
+
+
+MAX_TEXT_LEN = 500000
+
+
+def get_file_len(file):
+    pdf = pdfium.PdfDocument(file)
+    txt_len = 0
+
+    for i in range(len(pdf)):
+        page = pdf.get_page(i)
+        txt_page = page.get_textpage()
+        txt_len += len(txt_page.get_text_range().strip())
+
+        if txt_len > MAX_TEXT_LEN:
+            raise ValueError("Input file contains too much text")
+
+    return txt_len
 
 
 def parse_document(input_file):
@@ -36,5 +55,10 @@ def lambda_handler(event, context):
 
     temp_filename = Path(f"/tmp/{uuid.uuid4()}.pdf")
     temp_filename.write_bytes(content)
+
+    # check if there is text in the PDF
+    txt_len = get_file_len(temp_filename)
+    if txt_len == 0:
+        raise ValueError("File does not contain text")
 
     return parse_document(str(temp_filename))

@@ -1,8 +1,4 @@
-flask
-flask_restful
-flask_jsonpify
-gunicorn
-werkzeug
+pypdfium2
 boto3
 git+https://github.com/1greentangerine/tika-python.git
 bs4
