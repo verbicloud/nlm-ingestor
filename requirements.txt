@@ -1,6 +1,6 @@
 pypdfium2
 boto3
-git+https://github.com/1greentangerine/tika-python.git
+git+https://github.com/verbicloud/tika-python.git
 bs4
 nltk
 python-magic
