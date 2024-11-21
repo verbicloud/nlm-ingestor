@@ -1,5 +1,4 @@
-from pathlib import Path
-import uuid
+from tempfile import NamedTemporaryFile
 
 import boto3
 from nlm_ingestor.ingestor import ingestor_api
@@ -53,12 +52,12 @@ def lambda_handler(event, context):
     this_file = s3_client.get_object(Bucket=s3_bucket, Key=s3_filename)
     content = this_file["Body"].read()
 
-    temp_filename = Path(f"/tmp/{uuid.uuid4()}.pdf")
-    temp_filename.write_bytes(content)
+    tmpfile = NamedTemporaryFile(dir="/tmp", suffix=".pdf")
+    tmpfile.write(content)
 
     # check if there is text in the PDF
-    txt_len = get_file_len(temp_filename)
+    txt_len = get_file_len(tmpfile.name)
     if txt_len == 0:
         raise ValueError("File does not contain text")
 
-    return parse_document(str(temp_filename))
+    return parse_document(tmpfile.name)
