@@ -100,7 +100,9 @@ def get_full_tables(blocks):
 
 
 def ingest_documents(
-    test_case_dict, tika_documents="dump", ingested_document_dir="dump/ingest_output",
+    test_case_dict,
+    tika_documents="dump",
+    ingested_document_dir="dump/ingest_output",
 ):
     # dump the rendered html documents in the output dir
     total_blocks = (
@@ -109,8 +111,11 @@ def ingest_documents(
     for document in test_case_dict:
         document_name = test_case_dict[document]["name"]
         tika_file = f"{tika_documents}/{document_name}.html"
-        blocks, block_texts, sents, file_data, result, _num_pages = ingest_and_render_file(
-            tika_file, False,
+        blocks, block_texts, sents, file_data, result, _num_pages = (
+            ingest_and_render_file(
+                tika_file,
+                False,
+            )
         )
 
         # inferred_title = result["title_page_fonts"]["first_level"][:2]

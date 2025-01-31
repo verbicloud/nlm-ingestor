@@ -1,10 +1,14 @@
-from tempfile import NamedTemporaryFile
+import tika
 
+print("Starting tika serer")
+tika.initVM()
+from tempfile import NamedTemporaryFile
 import boto3
 from nlm_ingestor.ingestor import ingestor_api
 import pypdfium2 as pdfium
 from llmsherpa.readers import Document
-
+import requests
+import time
 
 MAX_TEXT_LEN = 500000
 

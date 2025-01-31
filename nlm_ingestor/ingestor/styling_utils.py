@@ -188,7 +188,11 @@ def no_style_p_to_lines(p_item):
 
 
 def compute_overlap(
-    start_x0: float, end_x0: float, start_x1: float, end_x1: float, divide_by_min=True,
+    start_x0: float,
+    end_x0: float,
+    start_x1: float,
+    end_x1: float,
+    divide_by_min=True,
 ) -> float:
     """
     Computes the % of intersection (overlap) of two lines w.r.t. the shortest line
@@ -274,7 +278,9 @@ def calc_page_info_and_line_stats(lines):
     page_stats = {}
     page_info_dict = defaultdict(list)
     for prev_line, curr_line, next_line in zip(
-        [None] + lines[:-1], lines, lines[1:] + [None],
+        [None] + lines[:-1],
+        lines,
+        lines[1:] + [None],
     ):
         # calculate statistics within a line
         font_sizes = []
@@ -284,7 +290,8 @@ def calc_page_info_and_line_stats(lines):
             fs = max(curr_line["style"]["start_fs"][i], curr_line["style"]["end_fs"][i])
             fw = max(curr_line["style"]["start_fw"][i], curr_line["style"]["end_fw"][i])
             word_space = round(
-                curr_line["style"]["end_x"][i] - curr_line["style"]["start_x"][i], 1,
+                curr_line["style"]["end_x"][i] - curr_line["style"]["start_x"][i],
+                1,
             )
 
             font_sizes.append(fs)
@@ -296,13 +303,15 @@ def calc_page_info_and_line_stats(lines):
         diff_next_y = -1.0
         if next_line is not None:
             diff_next_y = round(
-                next_line["style"]["start_y"][0] - curr_line["style"]["start_y"][0], 0,
+                next_line["style"]["start_y"][0] - curr_line["style"]["start_y"][0],
+                0,
             )
 
         diff_prev_y = -1.0
         if prev_line is not None:
             diff_prev_y = round(
-                curr_line["style"]["start_y"][0] - prev_line["style"]["start_y"][0], 0,
+                curr_line["style"]["start_y"][0] - prev_line["style"]["start_y"][0],
+                0,
             )
 
         # add diff_y properties to current line
@@ -518,10 +527,17 @@ def p_to_lines(p_items: list) -> list:
             # overlap_divided_by_min = intersection(line_1, line_2)/min(line_1, line_2)
 
             overlap_divided_by_min = compute_overlap(
-                prev_start_x, prev_end_x, start_x, end_x,
+                prev_start_x,
+                prev_end_x,
+                start_x,
+                end_x,
             )
             overlap_divided_by_max = compute_overlap(
-                prev_start_x, prev_end_x, start_x, end_x, divide_by_min=False,
+                prev_start_x,
+                prev_end_x,
+                start_x,
+                end_x,
+                divide_by_min=False,
             )
 
             # overlap check
