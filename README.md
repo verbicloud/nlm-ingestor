@@ -1,3 +1,7 @@
+# Archived
+This repo is no longer in development and will be archived
+
+
 # About
 
 This repo provides the service code for [llmsherpa](https://github.com/nlmatics/llmsherpa) API to connect. 
